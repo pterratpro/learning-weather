@@ -23,7 +23,16 @@
 
 - Récupérer les prévisions sur les 4 jours d'après
 
+## Exo 5 
+- Soigner le design
+
+## Exo 6 
+- Proposer des modes : Degré, Farenheit, Kelvin 
+
 # Configuration
+## Api Weather
+https://openweathermap.org/
+
 ## Create-react-app
 L'application est créée avec create react app : 
 https://github.com/facebook/create-react-app
