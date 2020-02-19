@@ -5,6 +5,11 @@ import axios from 'axios';
 
 const baseUrl = "http://api.openweathermap.org/data/2.5";
 const appId= "&appid=e14154b4f09fc841a46c2fd919707747";
+
 export function getWeather(){
     return axios.get(baseUrl+"/weather?q=London"+appId);
+}
+
+export function getWeatherByCity(city){
+    return axios.get(baseUrl+"/weather?q="+city+appId);
 }
