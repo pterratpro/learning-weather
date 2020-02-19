@@ -2,9 +2,9 @@
 
 ## Exo 1 (manipuler du json + cherche dans la doc)
 
-- Rajouter la humidité en %
+- Rajouter l'humidité en %
 - Rajouter la vitesse du vent
-- Rajouter la température ressenti
+- Rajouter la température ressentie
 
 ## Exo 2 (Retravailler les arguments + event + les requetes ajax)
 
