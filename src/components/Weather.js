@@ -35,7 +35,8 @@ function Weather() {
                 <img alt="" src={loadIconWeather(weather.weather[0].icon)}></img>
                 <p>{weather.weather[0].description}</p>
                 <p>{kelvinToCelsius(weather.main.temp)} C°</p>
-                <p>{weather.main.humidity}%</p>
+                <p>{weather.main.humidity} %</p>
+                <p>{weather.wind.speed} m/s</p>
             </div>
              : <div>
                  <h1>Météo en attente de chargement</h1>
