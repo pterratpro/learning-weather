@@ -37,6 +37,7 @@ function Weather() {
                 <p>{kelvinToCelsius(weather.main.temp)} C°</p>
                 <p>{weather.main.humidity} %</p>
                 <p>{weather.wind.speed} m/s</p>
+                <p>{kelvinToCelsius(weather.main.feels_like)} C°</p>
             </div>
              : <div>
                  <h1>Météo en attente de chargement</h1>
