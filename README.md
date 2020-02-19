@@ -37,7 +37,7 @@ https://github.com/axios/axios
 npm install axios --save
 ```
 
-```
+```javascript
 import axios from 'axios'
 ```
 
