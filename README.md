@@ -1,5 +1,4 @@
 # learning-weather
-# learning-weather
 
 # Exercices
 ## Exo 1 (manipuler du json + cherche dans la doc)
