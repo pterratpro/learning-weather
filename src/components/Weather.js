@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getWeather, getWeatherByCity } from '../actions/weatherAction';
+import { getWeather, getWeatherByCity, getWeatherByCoords } from '../actions/weatherAction';
 // import { mockWeather } from '../mocks/mockWeather';
 
 function Weather() {
@@ -11,13 +11,15 @@ function Weather() {
     //Use Effect => Le composant est chargé
     // => Le state est modifié (géré par [])
     useEffect(()=>{
-        loadWeatherData();
+        //Récupérer les cordonnées 
+        navigator.geolocation.getCurrentPosition(loadWeatherData,errorLoadWeatherData);
     }, [])
 
     function kelvinToCelsius(tempKelvin){
         return Math.round(tempKelvin - 273.15);
     }
 
+    // Weather par city avec la barre de recherche
     async function searchWeatherByCity(){
         const weatherAjaxByCity = await getWeatherByCity(city);
         setWeather(weatherAjaxByCity.data);
@@ -27,7 +29,15 @@ function Weather() {
         setCity(event.target.value);
     }
 
-    async function loadWeatherData(){
+    //Weather par défaut
+    async function loadWeatherData(pos){
+        console.log(pos.coords.latitude);
+        console.log(pos.coords.longitude);
+        const weatherAjaxByCoords = await getWeatherByCoords(pos.coords);
+        setWeather(weatherAjaxByCoords.data);
+    }
+
+    async function errorLoadWeatherData(error){
         const weatherAjax = await getWeather();
         setWeather(weatherAjax.data);
     }

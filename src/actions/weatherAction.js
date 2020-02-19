@@ -13,3 +13,8 @@ export function getWeather(){
 export function getWeatherByCity(city){
     return axios.get(baseUrl+"/weather?q="+city+appId);
 }
+
+//Requete ajax get current weather by longitude et latitude
+export function getWeatherByCoords(coords){
+    return axios.get(baseUrl+"/weather?lat="+coords.latitude+"&lon="+coords.longitude+appId);
+}
