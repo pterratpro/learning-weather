@@ -1,13 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import { getWeather, getWeatherByCity, getWeatherByCoords } from '../actions/weatherAction';
-// import { mockWeather } from '../mocks/mockWeather';
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import { Button } from '@material-ui/core';
 
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
 function Weather() {
-
+    const classes = useStyles();
     // const [weather, setWeather] = useState(mockWeather);
     const [weather, setWeather] = useState(null);
     const [city, setCity] = useState(null);
-
+    const [pos, setPos] = useState(null);
+    const [lang, setLang] = useState("en");
+    const [isCoord,setIsCoord] = useState(true);
     //Use Effect => Le composant est chargé
     // => Le state est modifié (géré par [])
     useEffect(()=>{
@@ -21,7 +37,8 @@ function Weather() {
 
     // Weather par city avec la barre de recherche
     async function searchWeatherByCity(){
-        const weatherAjaxByCity = await getWeatherByCity(city);
+        const weatherAjaxByCity = await getWeatherByCity(city,lang);
+        setIsCoord(false);
         setWeather(weatherAjaxByCity.data);
     }
 
@@ -29,12 +46,19 @@ function Weather() {
         setCity(event.target.value);
     }
 
+    function handleChangeLang(event){
+        setLang(event.target.value);
+        if(isCoord)
+            loadWeatherData(pos,event.target.value);
+    }
+
     //Weather par défaut
-    async function loadWeatherData(pos){
-        console.log(pos.coords.latitude);
-        console.log(pos.coords.longitude);
-        const weatherAjaxByCoords = await getWeatherByCoords(pos.coords);
+    async function loadWeatherData(position,lang="en"){
+        console.log(position.coords.latitude);
+        console.log(position.coords.longitude);
+        const weatherAjaxByCoords = await getWeatherByCoords(position.coords,lang);
         setWeather(weatherAjaxByCoords.data);
+        setPos(position);
     }
 
     async function errorLoadWeatherData(error){
@@ -49,6 +73,20 @@ function Weather() {
 
     return (
         <div>
+            <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Langue</InputLabel>
+                <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={lang}
+                onChange={handleChangeLang}
+                >
+                    <MenuItem value={"en"}>Anglais</MenuItem>
+                    <MenuItem value={"fr"}>Français</MenuItem>
+                    <MenuItem value={"ja"}>Japonais</MenuItem>
+                </Select>
+            </FormControl>
+            <Button ></Button>
             { weather ? 
             <div>
                 <input type="text" onChange={handleChange} />
