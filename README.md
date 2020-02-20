@@ -19,15 +19,27 @@
 
 - Créer un chargement par défaut suivant la localisation courante
 
-## Exo 4 (Gérer plusieurs API dans une app React + lire la doc)
+## Exo 4 (Documentation, comment ils gérent la langue)
+- Un select (Anglais, Français et Japonais)
+- Par défaut, sur Anglais
+- Et switch de langue en fonction de ce que l'utilisateur à choisi
+Design : https://material-ui.com/components/selects/
+s
+## Exo 5 (Documentation, comment ils gérent la temperature)
+- Proposer des modes : Degré, Farenheit, Kelvin 
+- Par défaut, en Kelvin
+- et switch d'unité (metrics) 
+Design : https://material-ui.com/components/selects/
+
+## Exo 6 (Gérer plusieurs API dans une app React + lire la doc) (Difficulté : ***)
 
 - Récupérer les prévisions sur les 4 jours d'après
 
-## Exo 5 
-- Soigner le design
+## Exo 7
+- Soigner le design 
+- Material, Bootstrap
+- Grid 
 
-## Exo 6 
-- Proposer des modes : Degré, Farenheit, Kelvin 
 
 # Configuration
 ## Api Weather
