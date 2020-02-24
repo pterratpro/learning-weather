@@ -5,7 +5,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -24,20 +23,18 @@ function Weather() {
     const [pos, setPos] = useState(null);
     const [lang, setLang] = useState("en");
     const [isCoord,setIsCoord] = useState(true);
+    const [unit, setUnit] = useState(null);
     //Use Effect => Le composant est chargé
     // => Le state est modifié (géré par [])
     useEffect(()=>{
         //Récupérer les cordonnées 
         navigator.geolocation.getCurrentPosition(loadWeatherData,errorLoadWeatherData);
+        // loadWeatherData({coords:{lon:58, lat:127}});
     }, [])
-
-    function kelvinToCelsius(tempKelvin){
-        return Math.round(tempKelvin - 273.15);
-    }
 
     // Weather par city avec la barre de recherche
     async function searchWeatherByCity(){
-        const weatherAjaxByCity = await getWeatherByCity(city,lang);
+        const weatherAjaxByCity = await getWeatherByCity(city,lang,unit);
         setIsCoord(false);
         setWeather(weatherAjaxByCity.data);
     }
@@ -49,14 +46,20 @@ function Weather() {
     function handleChangeLang(event){
         setLang(event.target.value);
         if(isCoord)
-            loadWeatherData(pos,event.target.value);
+            loadWeatherData(pos,event.target.value,unit);
+    }
+
+    function handleChangeUnit(event){
+        setUnit(event.target.value);
+        if(isCoord)
+            loadWeatherData(pos,lang,event.target.value);
     }
 
     //Weather par défaut
-    async function loadWeatherData(position,lang="en"){
+    async function loadWeatherData(position,lang="en",unit=null){
         console.log(position.coords.latitude);
         console.log(position.coords.longitude);
-        const weatherAjaxByCoords = await getWeatherByCoords(position.coords,lang);
+        const weatherAjaxByCoords = await getWeatherByCoords(position.coords,lang,unit);
         setWeather(weatherAjaxByCoords.data);
         setPos(position);
     }
@@ -70,34 +73,58 @@ function Weather() {
        return "http://openweathermap.org/img/wn/"+idIcon+"@2x.png"
     }
 
+    function getUnitsSymbol(){
+        if(unit === null){
+            return "K"
+        } else if(unit==='imperial'){
+            return "°F";
+        }
+        else{
+            return "C°";
+        }
+    }
+
 
     return (
         <div>
-            <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Langue</InputLabel>
-                <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={lang}
-                onChange={handleChangeLang}
-                >
-                    <MenuItem value={"en"}>Anglais</MenuItem>
-                    <MenuItem value={"fr"}>Français</MenuItem>
-                    <MenuItem value={"ja"}>Japonais</MenuItem>
-                </Select>
-            </FormControl>
-            <Button ></Button>
+
             { weather ? 
             <div>
+                <FormControl className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-label">Langue</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={lang}
+                    onChange={handleChangeLang}
+                    >
+                        <MenuItem value={"en"}>Anglais</MenuItem>
+                        <MenuItem value={"fr"}>Français</MenuItem>
+                        <MenuItem value={"ja"}>Japonais</MenuItem>
+                    </Select>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-label">Units</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={unit}
+                    onChange={handleChangeUnit}
+                    >
+                        <MenuItem value={null}>Kelvin</MenuItem>
+                        <MenuItem value={"imperial"}>Farheneit</MenuItem>
+                        <MenuItem value={"metric"}>Degré Celsius</MenuItem>
+                    </Select>
+                </FormControl>
                 <input type="text" onChange={handleChange} />
                 <input type="button" onClick={searchWeatherByCity} value="Rechercher" />
                 <h1>Météo : {weather.name}</h1> 
                 <img alt="" src={loadIconWeather(weather.weather[0].icon)}></img>
                 <p>{weather.weather[0].description}</p>
-                <p>{kelvinToCelsius(weather.main.temp)} C°</p>
+                <p>{weather.main.temp} {getUnitsSymbol()}</p>
                 <p>{weather.main.humidity} %</p>
                 <p>{weather.wind.speed} m/s</p>
-                <p>{kelvinToCelsius(weather.main.feels_like)} C°</p>
+                <p>{weather.main.feels_like} {getUnitsSymbol()}</p>
             </div>
              : <div>
                  <h1>Météo en attente de chargement</h1>
