@@ -72,37 +72,36 @@ function Weather() {
 
     return (
         <div>
-
-            { weather ? 
+            <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Langue</InputLabel>
+                <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={lang}
+                onChange={handleChangeLang}
+                >
+                    <MenuItem value={"en"}>Anglais</MenuItem>
+                    <MenuItem value={"fr"}>Français</MenuItem>
+                    <MenuItem value={"ja"}>Japonais</MenuItem>
+                </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Units</InputLabel>
+                <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={unit}
+                onChange={handleChangeUnit}
+                >
+                    <MenuItem value={null}>Kelvin</MenuItem>
+                    <MenuItem value={"imperial"}>Farheneit</MenuItem>
+                    <MenuItem value={"metric"}>Degré Celsius</MenuItem>
+                </Select>
+            </FormControl>
+            <input type="text" onChange={handleChange} />
+            <input type="button" onClick={searchWeatherByCity} value="Rechercher" />
+            { weather ?    
             <div>
-                <FormControl className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-label">Langue</InputLabel>
-                    <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={lang}
-                    onChange={handleChangeLang}
-                    >
-                        <MenuItem value={"en"}>Anglais</MenuItem>
-                        <MenuItem value={"fr"}>Français</MenuItem>
-                        <MenuItem value={"ja"}>Japonais</MenuItem>
-                    </Select>
-                </FormControl>
-                <FormControl className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-label">Units</InputLabel>
-                    <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={unit}
-                    onChange={handleChangeUnit}
-                    >
-                        <MenuItem value={null}>Kelvin</MenuItem>
-                        <MenuItem value={"imperial"}>Farheneit</MenuItem>
-                        <MenuItem value={"metric"}>Degré Celsius</MenuItem>
-                    </Select>
-                </FormControl>
-                <input type="text" onChange={handleChange} />
-                <input type="button" onClick={searchWeatherByCity} value="Rechercher" />
                 <WeatherShow unit={unit} weather={weather} />
             </div>
              : <div>
