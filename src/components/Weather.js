@@ -15,6 +15,9 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from 'react-loader-spinner';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -42,12 +45,17 @@ const useStyles = makeStyles(theme => ({
     height: 28,
     margin: 4,
   },
+  city:{
+      marginBottom:50
+  }
 }));
 function Weather() {
     const classes = useStyles();
     // const [weather, setWeather] = useState(mockWeather);
     const [weather, setWeather] = useState(null);
+    const[ isLoadingWeather, setIsLoadingWeather] = useState(true);
     const [forecasts, setForecasts] = useState(null);
+    const[ isLoadingForecast, setIsLoadingForecast] = useState(true);
     const [city, setCity] = useState(null);
     const [pos, setPos] = useState(null);
     const [lang, setLang] = useState("en");
@@ -62,8 +70,12 @@ function Weather() {
 
     // Weather par city avec la barre de recherche
     async function searchWeatherByCity(){
+        setIsLoadingForecast(true);
+        setIsLoadingWeather(true);
         const weatherAjaxByCity = await getWeatherByCity(city,lang,unit);
         const forecastAjaxByCity = await getForecastByCity(city,lang,unit);
+        setIsLoadingForecast(false);
+        setIsLoadingWeather(false);
         setForecastFor4Days(forecastAjaxByCity.data);
 
         setIsCoord(false);
@@ -103,8 +115,12 @@ function Weather() {
 
     //Weather par défaut
     async function loadWeatherData(position,lang="en",unit="default"){
+        setIsLoadingForecast(true);
+        setIsLoadingWeather(true);
         const weatherAjaxByCoords = await getWeatherByCoords(position.coords,lang,unit);
         const forecastAjaxByCoords = await getForecastByCoords(position.coords,lang,unit);
+        setIsLoadingForecast(false);
+        setIsLoadingWeather(false);
         setWeather(weatherAjaxByCoords.data);
         setForecastFor4Days(forecastAjaxByCoords.data);
         setPos(position);
@@ -167,23 +183,44 @@ function Weather() {
                 </Grid>
             </Grid>
 
-            { weather ?    
-            <div>
-                <WeatherShow unit={unit} weather={weather} />
-            </div>
+            { !isLoadingWeather && weather ?    
+            <Grid container justify="center" >
+                <Grid item xs={12} >
+                    <Typography variant="h3" component="h3" className={classes.city} >{weather.name}</Typography>
+                </Grid>
+                <Grid item xs={3} justify="center">
+                    <WeatherShow unit={unit} weather={weather} />
+                </Grid>
+            </Grid>
              : <div>
-                 <h1>Météo en attente de chargement</h1>
+             <Loader
+                type="Plane"
+                color="#000000"
+                height={100}
+                width={100}
+                timeout={3000} //3 secs
+            />
                </div>
             }
-            { forecasts ?    
+            { !isLoadingForecast && forecasts ?    
                 <div>
                     <h1>Prévisions</h1>
+                    <Grid container spacing={3}>
                     {forecasts.map((forecast, index) => {
-                        return <ForecastShow unit={unit} forecast={forecast} />
+                        return <Grid item xs={3}>
+                            <ForecastShow unit={unit} date={fromUnixTime(forecast.dt)} forecast={forecast} />
+                        </Grid>
                     })}
+                    </Grid>
                 </div>
                  : <div>
-                     <h1>Prévisions en attente de chargement</h1>
+                 <Loader
+                    type="Plane"
+                    color="#c62828"
+                    height={100}
+                    width={100}
+                    timeout={3000} //3 secs
+                />
                    </div>
                 }
 
