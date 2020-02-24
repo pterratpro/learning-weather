@@ -10,6 +10,11 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import WeatherShow from './WeatherShow';
 import ForecastShow from './ForecastShow';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -18,6 +23,24 @@ const useStyles = makeStyles(theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
+  },
+  root: {
+    padding: '2px 4px',
+    margin:"50px",
+    display: 'flex',
+    alignItems: 'center',
+    width: 600,
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  divider: {
+    height: 28,
+    margin: 4,
   },
 }));
 function Weather() {
@@ -96,34 +119,54 @@ function Weather() {
 
     return (
         <div>
-            <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Langue</InputLabel>
-                <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={lang}
-                onChange={handleChangeLang}
-                >
-                    <MenuItem value={"en"}>Anglais</MenuItem>
-                    <MenuItem value={"fr"}>Français</MenuItem>
-                    <MenuItem value={"ja"}>Japonais</MenuItem>
-                </Select>
-            </FormControl>
-            <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Units</InputLabel>
-                <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={unit}
-                onChange={handleChangeUnit}
-                >
-                    <MenuItem value={"default"}>Kelvin</MenuItem>
-                    <MenuItem value={"imperial"}>Farheneit</MenuItem>
-                    <MenuItem value={"metric"}>Degré Celsius</MenuItem>
-                </Select>
-            </FormControl>
-            <input type="text" onChange={handleChange} />
-            <input type="button" onClick={searchWeatherByCity} value="Rechercher" />
+            <Grid container justify="flex-end">
+                <Grid item>            
+                    <FormControl className={classes.formControl}>
+                    <InputLabel id="demo-simple-select-label">Langue</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={lang}
+                    onChange={handleChangeLang}
+                    >
+                        <MenuItem value={"en"}>Anglais</MenuItem>
+                        <MenuItem value={"fr"}>Français</MenuItem>
+                        <MenuItem value={"ja"}>Japonais</MenuItem>
+                    </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-label">Units</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={unit}
+                        onChange={handleChangeUnit}
+                        >
+                            <MenuItem value={"default"}>Kelvin</MenuItem>
+                            <MenuItem value={"imperial"}>Farheneit</MenuItem>
+                            <MenuItem value={"metric"}>Degré Celsius</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+            </Grid>
+            <Grid container justify='center' spacing={2}>
+                <Grid item>
+                    <Paper component="form" className={classes.root}>
+                        <InputBase
+                            className={classes.input}
+                            placeholder="Search weather of city"
+                            inputProps={{ 'aria-label': 'Search weather of city"' }}
+                            onChange={handleChange} 
+                        />
+                        <IconButton type="button" onClick={searchWeatherByCity} className={classes.iconButton} aria-label="search">
+                            <SearchIcon />
+                        </IconButton>
+                    </Paper>
+                </Grid>
+            </Grid>
+
             { weather ?    
             <div>
                 <WeatherShow unit={unit} weather={weather} />
