@@ -5,6 +5,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import WeatherShow from './WeatherShow';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -69,22 +70,6 @@ function Weather() {
         setWeather(weatherAjax.data);
     }
 
-    function loadIconWeather(idIcon){
-       return "http://openweathermap.org/img/wn/"+idIcon+"@2x.png"
-    }
-
-    function getUnitsSymbol(){
-        if(unit === null){
-            return "K"
-        } else if(unit==='imperial'){
-            return "°F";
-        }
-        else{
-            return "C°";
-        }
-    }
-
-
     return (
         <div>
 
@@ -118,13 +103,7 @@ function Weather() {
                 </FormControl>
                 <input type="text" onChange={handleChange} />
                 <input type="button" onClick={searchWeatherByCity} value="Rechercher" />
-                <h1>Météo : {weather.name}</h1> 
-                <img alt="" src={loadIconWeather(weather.weather[0].icon)}></img>
-                <p>{weather.weather[0].description}</p>
-                <p>{weather.main.temp} {getUnitsSymbol()}</p>
-                <p>{weather.main.humidity} %</p>
-                <p>{weather.wind.speed} m/s</p>
-                <p>{weather.main.feels_like} {getUnitsSymbol()}</p>
+                <WeatherShow unit={unit} weather={weather} />
             </div>
              : <div>
                  <h1>Météo en attente de chargement</h1>
