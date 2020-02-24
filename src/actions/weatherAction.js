@@ -11,12 +11,12 @@ export function getWeather(){
 }
 
 export function getWeatherByCity(city,lang,units=null){
-    const parametersUnit = units ? "&units="+units : "";
+    const parametersUnit = units !== "default" ? "&units="+units : "";
     return axios.get(baseUrl+"/weather?q="+city+"&lang="+lang+parametersUnit+appId);
 }
 
 //Requete ajax get current weather by longitude et latitude
 export function getWeatherByCoords(coords,lang,units=null){
-    const parametersUnit = units ? "&units="+units : "";
+    const parametersUnit = units !== "default" ? "&units="+units : "";
     return axios.get(baseUrl+"/weather?lat="+coords.latitude+"&lon="+coords.longitude+"&lang="+lang+parametersUnit+appId);
 }

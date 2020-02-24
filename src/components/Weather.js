@@ -29,7 +29,7 @@ function Weather() {
     const [pos, setPos] = useState(null);
     const [lang, setLang] = useState("en");
     const [isCoord,setIsCoord] = useState(true);
-    const [unit, setUnit] = useState(null);
+    const [unit, setUnit] = useState("default");
     //Use Effect => Le composant est chargé
     // => Le state est modifié (géré par [])
     useEffect(()=>{
@@ -79,7 +79,7 @@ function Weather() {
     }
 
     //Weather par défaut
-    async function loadWeatherData(position,lang="en",unit=null){
+    async function loadWeatherData(position,lang="en",unit="default"){
         const weatherAjaxByCoords = await getWeatherByCoords(position.coords,lang,unit);
         const forecastAjaxByCoords = await getForecastByCoords(position.coords,lang,unit);
         setWeather(weatherAjaxByCoords.data);
@@ -117,7 +117,7 @@ function Weather() {
                 value={unit}
                 onChange={handleChangeUnit}
                 >
-                    <MenuItem value={null}>Kelvin</MenuItem>
+                    <MenuItem value={"default"}>Kelvin</MenuItem>
                     <MenuItem value={"imperial"}>Farheneit</MenuItem>
                     <MenuItem value={"metric"}>Degré Celsius</MenuItem>
                 </Select>

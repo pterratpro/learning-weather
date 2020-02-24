@@ -7,7 +7,7 @@ function WeatherShow(props) {
      }
  
      function getUnitsSymbol(){
-         if(props.unit === null){
+         if(props.unit === "default"){
              return "K"
          } else if(props.unit==='imperial'){
              return "°F";
