@@ -1,38 +1,50 @@
-.App {
-  text-align: center;
+@font-face {
+  font-family: 'American';
+  src: url('./fonts/American.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app{
+  padding: 0;
+  margin: 0;
+  font-family: 'American';
+  font-size: 62.5%;
+  font-weight: normal;
+  letter-spacing: 0.2px;
+  color: #000;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.header {
+  background: #F5F5F5;
+  padding: 25px 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.logo {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: flex-start;
 }
 
-.App-link {
-  color: #61dafb;
+.logo-litm {
+  height: 40px;
+  width: 40px;
+  background: url('./logoLITMAcademy.svg') no-repeat center center;
+  background-size: contain;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.logo-name {
+  margin: 0 0 0 14px;
+  line-height: 40px;
+  font-size: 2rem;
+  color: black;
+}
+
+.header-logo img {
+  height: 100%;
+}
+
+.body {
+  padding-top: 30px;
+  text-align: center;
+  background: #ffffff;
 }
