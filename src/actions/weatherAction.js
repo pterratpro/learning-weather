@@ -10,11 +10,13 @@ export function getWeather(){
     return axios.get(baseUrl+"/weather?q=London"+appId);
 }
 
-export function getWeatherByCity(city,lang){
-    return axios.get(baseUrl+"/weather?q="+city+"&lang="+lang+appId);
+export function getWeatherByCity(city,lang,units=null){
+    const parametersUnit = units ? "&units="+units : "";
+    return axios.get(baseUrl+"/weather?q="+city+"&lang="+lang+parametersUnit+appId);
 }
 
 //Requete ajax get current weather by longitude et latitude
-export function getWeatherByCoords(coords,lang){
-    return axios.get(baseUrl+"/weather?lat="+coords.latitude+"&lon="+coords.longitude+"&lang="+lang+appId);
+export function getWeatherByCoords(coords,lang,units=null){
+    const parametersUnit = units ? "&units="+units : "";
+    return axios.get(baseUrl+"/weather?lat="+coords.latitude+"&lon="+coords.longitude+"&lang="+lang+parametersUnit+appId);
 }
